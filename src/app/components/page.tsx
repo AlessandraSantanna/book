@@ -5,7 +5,7 @@ import { BookOpen, Search, LayoutDashboard, User } from "lucide-react";
 
 export default function BookShelfLanding() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-pink-100 to-pink-300 text-pink-900 font-sans">
+    <main className="min-h-screen bg-gradient-to-br from-pink-100 to-pink-600 text-pink-600 font-sans">
       {/* Hero Section */}
       <section className="text-center py-20 px-6">
         <h1 className="text-5xl font-bold mb-4">📚 BookShelf</h1>

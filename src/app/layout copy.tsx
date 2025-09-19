@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
+import Image from "next/image";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,13 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "📚 BookShelfBook",
+  title: "BookShelfBook",
   description: "biblioteca pessoal",
-  icons: {
-    icon: "/favicon.png", // ✅ caminho para o ícone
-  },
 };
-
 
 export default function RootLayout({
   children,
@@ -28,10 +24,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt">
+    <html lang="pt-BR">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <div className="flex justify-center py-6 bg-pink-100">
+          <Image
+            src="/livro.png"
+            alt="Livro decorativo"
+            width={120}
+            height={120}
+            className="rounded-lg shadow-md"
+          />
+        </div>
         {children}
       </body>
     </html>

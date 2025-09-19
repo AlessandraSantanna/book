@@ -1,11 +1,25 @@
 "use client";
-
+import BookSearchBR from "@/app/components/BookSearchBR";
+import { useState } from "react";
 import Link from "next/link";
-import { BookOpen, Search, LayoutDashboard, User } from "lucide-react";
+import Image from "next/image";
+import { BookOpen, Search, LayoutDashboard } from "lucide-react";
 
 export default function BookShelfLanding() {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+
+  async function handleSearch(e: React.FormEvent) {
+    e.preventDefault();
+    if (!query) return;
+
+    const res = await fetch(`https://openlibrary.org/search.json?q=${query}`);
+    const data = await res.json();
+    setResults(data.docs.slice(0, 6)); // mostra apenas 5 resultados
+  }
+
   return (
-    <main className="min-h-screen bg-gradient-to-br from-pink-100 to-gray-300 text-gray-900 font-sans">
+    <main className="min-h-screen bg-gradient-to-br from-pink-400 to-pink-200 text-gray-900 font-sans">
       {/* Hero Section */}
       <section className="text-center py-20 px-6">
         <h1 className="text-5xl font-bold mb-4">📚 BookShelf</h1>
@@ -15,12 +29,13 @@ export default function BookShelfLanding() {
         <div className="mt-8">
           <Link
             href="/bookshelf/app"
-            className="bg-gray-400 text-white px-6 py-3 rounded-full hover:bg-gray-700 transition"
+            className="bg-pink-100 text-black px-6 py-3 rounded-full hover:bg-gray-300 transition"
           >
             Começar agora
           </Link>
         </div>
       </section>
+ <BookSearchBR/>
 
       {/* Funcionalidades */}
       <section className="py-16 px-6 bg-white">
@@ -44,7 +59,7 @@ export default function BookShelfLanding() {
         </div>
       </section>
 
-     
+      
 
       {/* Público-Alvo */}
       <section className="py-16 px-6 bg-white">
@@ -80,9 +95,10 @@ export default function BookShelfLanding() {
       </section>
 
       {/* Rodapé */}
-      <footer className="bg-gray-700 text-white py-6 text-center">
+      <footer className="bg-pink-100 text-black py-6 text-center">
         <p>© 2025 BookShelf by Grupo 18 Bits. Todos os direitos reservados.</p>
       </footer>
+     
     </main>
   );
 }
