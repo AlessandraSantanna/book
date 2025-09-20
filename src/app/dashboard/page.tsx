@@ -22,19 +22,24 @@ export default function Dashboard() {
         console.error("Erro ao ler cookie:", error);
       }
     } else {
-      router.push("/login");
+      router.push("/landing");
     }
 
     const timer = setTimeout(() => {
-     router.push("/landing"); // ✅ correto
+   router.push("/landing") // ✅ correto
 
     }, 3000);
 
     return () => clearTimeout(timer);
   }, [router]);
 
-  if (!user) return null;
-
+  if (!user) {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-pink-100">
+      <p className="text-pink-600 text-xl font-semibold">Carregando...</p>
+    </div>
+  );
+}
   return (
     <div className="flex min-h-screen items-center justify-center bg-pink-100">
       <div className="bg-white shadow-lg rounded-3xl p-10 text-center max-w-md">

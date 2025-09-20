@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, Search, LayoutDashboard, User } from "lucide-react";
+import { BookOpen, Search, LayoutDashboard } from "lucide-react";
 
 export default function BookShelfLanding() {
   return (
