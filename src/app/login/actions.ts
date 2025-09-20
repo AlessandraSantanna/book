@@ -5,7 +5,8 @@ import { findUserByCredentials } from '../book/_lib/users';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-export async function loginAction(_prevState, formData: FormData) {
+export async function loginAction(_prevState: Record<string, unknown>, formData: FormData) {
+
   await new Promise((resolve) => setTimeout(resolve, 3000));
   const email = formData.get('email')?.toString();
   const senha = formData.get('senha')?.toString();
