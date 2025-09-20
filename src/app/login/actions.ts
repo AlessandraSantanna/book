@@ -29,6 +29,7 @@ cookieStore.set("user", JSON.stringify({ nome: user.nome, email: user.email }), 
     }
   )
 
-  redirect('/dashboard')
+redirect("/dashboard"); // 
+
 
 }

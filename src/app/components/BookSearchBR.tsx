@@ -3,9 +3,19 @@
 import { useState } from "react";
 import Image from "next/image";
 
+interface Book {
+  volumeInfo: {
+    title: string;
+    authors?: string[];
+    imageLinks?: {
+      thumbnail?: string;
+    };
+  };
+}
+
 export default function BookSearchBR() {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<Book[]>([]);
 
   async function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -20,7 +30,7 @@ export default function BookSearchBR() {
 
   return (
     <section className="py-16 px-6 bg-white">
-      <h2 className="text-3xl font-bold text-center mb-8">🔍 Pesquisar Livros </h2>
+      <h2 className="text-3xl font-bold text-center mb-8">🔍 Pesquisar Livros</h2>
       <form onSubmit={handleSearch} className="max-w-xl mx-auto flex gap-4 mb-8">
         <input
           type="text"
@@ -38,7 +48,7 @@ export default function BookSearchBR() {
       </form>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        {results.map((book: any, index) => {
+        {results.map((book, index) => {
           const info = book.volumeInfo;
           return (
             <div key={index} className="bg-pink-50 p-4 rounded-lg shadow-md">

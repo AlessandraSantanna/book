@@ -26,7 +26,8 @@ export default function Dashboard() {
     }
 
     const timer = setTimeout(() => {
-      router.push("/");
+     router.push("/landing"); // ✅ correto
+
     }, 3000);
 
     return () => clearTimeout(timer);
