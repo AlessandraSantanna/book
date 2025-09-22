@@ -29,23 +29,27 @@ export default function BookSearchBR() {
   }
 
   return (
-    <section className="py-16 px-6 bg-white">
-      <h2 className="text-3xl font-bold text-center mb-8">🔍 Pesquisar Livros</h2>
-      <form onSubmit={handleSearch} className="max-w-xl mx-auto flex gap-4 mb-8">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Digite o título do livro..."
-          className="flex-1 px-4 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
-        />
-        <button
-          type="submit"
-          className="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition"
-        >
-          Buscar
-        </button>
-      </form>
+   <section className="py-16 px-6 bg-white">
+  <h2 className="text-3xl font-bold text-center mb-8">🔍 Pesquisar Livros</h2>
+  <form
+    onSubmit={handleSearch}
+    className="max-w-xl mx-auto flex flex-wrap gap-4 mb-8"
+  >
+    <input
+      type="text"
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      placeholder="Digite o título do livro..."
+      className="w-full sm:flex-1 px-4 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+    />
+    <button
+      type="submit"
+      className="w-full sm:w-auto bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition"
+    >
+      Buscar
+    </button>
+  </form>
+
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
         {results.map((book, index) => {

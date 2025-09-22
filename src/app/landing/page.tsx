@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { BookOpen, Search, LayoutDashboard } from "lucide-react";
+import Funcionalidades from "../components/Funcionalidades/page";
 
 export default function BookShelfLanding() {
   const [query, setQuery] = useState("");
@@ -19,47 +20,34 @@ export default function BookShelfLanding() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-pink-400 to-pink-200 text-gray-900 font-sans">
-      {/* Hero Section */}
-      <section className="text-center py-20 px-6">
-        <h1 className="text-5xl font-bold mb-4">📚 BookShelf</h1>
-        <p className="text-xl max-w-2xl mx-auto">
-          Gerencie sua biblioteca pessoal com estilo. Cadastre, organize e acompanhe seus livros com uma interface moderna e intuitiva.
-        </p>
-        <div className="mt-8">
-          <Link
-            href="/bookshelf/app"
-            className="bg-pink-100 text-black px-6 py-3 rounded-full hover:bg-gray-300 transition"
-          >
-            Começar agora
-          </Link>
-        </div>
-      </section>
+  <main className="min-h-screen bg-gradient-to-br from-pink-400 to-pink-200 text-gray-900 font-sans">
+  {/* Hero Section */}
+  <section
+    className="relative text-center px-4 py-16 sm:py-20 sm:px-6 bg-[url('/home.jpg')] bg-cover bg-center bg-no-repeat"
+  >
+    {/* Overlay escuro para contraste */}
+    <div className="absolute inset-0 bg-black/40"></div>
+
+    {/* Conteúdo central */}
+    <div className="relative z-10 max-w-3xl mx-auto">
+      <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-white drop-shadow-lg">
+        📚 BookShelf
+      </h1>
+      <p className="text-lg sm:text-xl text-white drop-shadow max-w-2xl mx-auto">
+        Gerencie sua biblioteca pessoal com estilo. Pesquise, cadastre, organize e acompanhe seus livros com uma interface moderna e intuitiva.
+      </p>
+      <div className="mt-8">
+        <Link
+          href="/cadLivro"
+          className="inline-block bg-pink-100 text-black px-6 py-3 rounded-full hover:bg-pink-400 transition"
+        >
+          Começar agora
+        </Link>
+      </div>
+    </div>
+  </section>
  <BookSearchBR/>
-
-      {/* Funcionalidades */}
-      <section className="py-16 px-6 bg-white">
-        <h2 className="text-3xl font-bold text-center mb-12">⚙ Funcionalidades</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          <div className="bg-pink-50 p-6 rounded-lg shadow-md text-center">
-            <BookOpen size={40} className="mx-auto mb-4 text-gray-600" />
-            <h3 className="text-xl font-semibold mb-2">Cadastro de Livros</h3>
-            <p>Título, autor, editora, gênero, capa, páginas e mais.</p>
-          </div>
-          <div className="bg-pink-50 p-6 rounded-lg shadow-md text-center">
-            <Search size={40} className="mx-auto mb-4 text-gray-600" />
-            <h3 className="text-xl font-semibold mb-2">Busca e Filtros</h3>
-            <p>Organize por gênero, autor ou status de leitura.</p>
-          </div>
-          <div className="bg-pink-50 p-6 rounded-lg shadow-md text-center">
-            <LayoutDashboard size={40} className="mx-auto mb-4 text-gray-600" />
-            <h3 className="text-xl font-semibold mb-2">Estantes Personalizadas</h3>
-            <p>Crie coleções como Favoritos, Clássicos ou Para Estudar.</p>
-          </div>
-        </div>
-      </section>
-
-      
+  <Funcionalidades/>
 
       {/* Público-Alvo */}
       <section className="py-16 px-6 bg-white">

@@ -23,17 +23,12 @@ export default function Login() {
           Cadastre-se gratuitamente e comece agora mesmo a organizar seus livros.
         </p>
         <div className="flex gap-4">
-          <Link
-            href="/sobre"
-            className="bg-pink-600 text-white px-6 py-2 rounded-full hover:bg-pink-700 transition"
-          >
-            Saiba mais
-          </Link>
+          
           <Link
             href="/cadastro"
             className="bg-white text-pink-600 border border-pink-600 px-6 py-2 rounded-full hover:bg-pink-50 transition"
           >
-            Cadastre-se »
+            Cadastre-se
           </Link>
         </div>
       </section>
@@ -62,7 +57,7 @@ export default function Login() {
 
           <button
             type="submit"
-            className="bg-pink-600 text-white py-2 rounded hover:bg-pink-700 transition"
+            className="bg-pink-600 text-white py-2 rounded hover:bg-pink-400 transition"
           >
             {isPending ? "Entrando..." : "Entrar"}
           </button>
