@@ -56,7 +56,7 @@ const Cadastro: React.FC = () => {
           <button type="submit" className={styles.primaryBtn}>
             Criar Conta
           </button>
-         <Link href="/landing"
+         <Link href="/login"
             className={styles.primaryBtn}>
             Ir para Home
           </Link>
