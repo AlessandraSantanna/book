@@ -7,11 +7,15 @@ interface Book {
   volumeInfo: {
     title: string;
     authors?: string[];
+    description?: string;
+    pageCount?: number;
+    language?: string;
     imageLinks?: {
       thumbnail?: string;
     };
   };
 }
+
 
 export default function BookSearchBR() {
   const [query, setQuery] = useState("");
@@ -55,28 +59,45 @@ export default function BookSearchBR() {
         {results.map((book, index) => {
           const info = book.volumeInfo;
           return (
-            <div key={index} className="bg-pink-50 p-4 rounded-lg shadow-md">
-              {info.imageLinks?.thumbnail ? (
-                <Image
-                  src={info.imageLinks.thumbnail}
-                  alt={info.title}
-                  width={200}
-                  height={300}
-                  className="rounded mb-4 mx-auto"
-                />
-              ) : (
-                <div className="w-full h-[300px] bg-pink-200 flex items-center justify-center rounded mb-4">
-                  <span className="text-pink-700">Sem capa</span>
-                </div>
-              )}
-              <h3 className="text-lg font-semibold text-pink-800 text-center">{info.title}</h3>
-              <p className="text-sm text-pink-700 text-center">
-                {info.authors?.[0] || "Autor desconhecido"}
-              </p>
-            </div>
-          );
-        })}
-      </div>
-    </section>
+          <div key={index} className="bg-pink-50 p-4 rounded-lg shadow-md">
+  {info.imageLinks?.thumbnail ? (
+    <Image
+      src={info.imageLinks.thumbnail}
+      alt={info.title}
+      width={200}
+      height={300}
+      className="rounded mb-4 mx-auto"
+    />
+  ) : (
+    <div className="w-full h-[300px] bg-pink-200 flex items-center justify-center rounded mb-4">
+      <span className="text-pink-700">Sem capa</span>
+    </div>
+  )}
+
+  <h3 className="text-lg font-semibold text-pink-800 text-center">{info.title}</h3>
+  <p className="text-sm text-pink-700 text-center">
+    {info.authors?.[0] || "Autor desconhecido"}
+  </p>
+
+  {info.description && (
+    <p className="text-sm text-gray-700 mt-2 text-center">
+      {info.description.length > 200
+        ? info.description.slice(0, 200) + "..."
+        : info.description}
+    </p>
+  )}
+
+  <p className="text-sm text-pink-700 mt-2 text-center">
+    {info.pageCount ? `${info.pageCount} páginas` : "Número de páginas não informado"}
+  </p>
+    <p className="text-sm text-pink-700 mt-2 text-center">
+    {info.language ? `Idioma: ${info.language.toUpperCase()}` : "Idioma não informado"}
+  </p>
+</div>
+
+  );
+  })}
+  </div>
+  </section>
   );
 }
