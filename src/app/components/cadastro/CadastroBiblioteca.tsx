@@ -14,7 +14,7 @@ interface Livro {
   avaliacao: number;
 }
 
-export default function BibliotecaLivros() {
+export default function CadastroBiblioteca() {
   const [livros, setLivros] = useState<Livro[]>([]);
   const [query, setQuery] = useState("");
   const [filtroGenero, setFiltroGenero] = useState("");
