@@ -1,8 +1,7 @@
 "use client";
-import BibliotecaLivros from "@/app/components/cadastro/CadastroBiblioteca";
+import CadastroBiblioteca from "@/app/components/cadastro/CadastroBiblioteca";
 
-
-
-export default function CadastroPage() {
-  return <BibliotecaLivros />
+export default function Page() {
+  return <CadastroBiblioteca />;
 }
+

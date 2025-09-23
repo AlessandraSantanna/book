@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Star } from "lucide-react";
 import { FaStar, FaRegStar } from "react-icons/fa";
 
 import BookSearchBR from "@/app/components/BookSearchBR";
