@@ -6,7 +6,7 @@ import Image from "next/image";
 import { FaStar, FaRegStar } from "react-icons/fa";
 
 import BookSearchBR from "@/app/components/BookSearchBR";
-import Funcionalidades from "../components/Funcionalidades/page";
+import Funcionalidades from "../components/Funcionalidades/Funcionalidades";
 
 interface Livro {
   id: string;
