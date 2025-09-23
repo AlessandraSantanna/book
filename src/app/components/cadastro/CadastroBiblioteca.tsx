@@ -3,6 +3,7 @@ import { FaStar, FaRegStar } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Star, Eye, Pencil, Trash2 } from "lucide-react";
+import Link from "next/link";
 
 interface Livro {
   id: string;
@@ -228,6 +229,7 @@ useEffect(() => {
   ))}
 </div>
 
+
 {livroSelecionado && (
   <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
     <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full relative">
@@ -315,7 +317,15 @@ useEffect(() => {
           </div>
         ))}
       </div>
-      
+      <div className="text-center mt-12">
+  <Link
+    href="/landing"
+    className="inline-block bg-pink-600 text-white px-6 py-3 rounded-full hover:bg-pink-700 transition"
+  >
+    Ir para Minha Estante
+  </Link>
+</div>
+
     </section>
     
   );
