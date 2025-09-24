@@ -13,7 +13,7 @@ export default function Funcionalidades() {
         <BookOpen size={40} className="mx-auto mb-4 text-pink-600" />
         <h3 className="text-xl font-semibold mb-2">Cadastro de Livros</h3>
         <p className="text-gray-700">
-          Título, autor, editora, gênero, capa, páginas e mais.
+          Título, autor, editora, gênero, capa e mais.
         </p>
       </div>
     </Link>

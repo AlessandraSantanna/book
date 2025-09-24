@@ -30,9 +30,17 @@ export default function RootLayout({
   return (
     <html lang="pt">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased   document.documentElement.classList.add("dark");
+;`}
+      
       >
+        
         {children}
+        {/* Rodapé */}
+      <footer className="bg-pink-100 text-black py-6 text-center">
+        <p>BookShelf by Grupo 18 Bits - Alessandra, Vanessa e Layan. Todos os direitos reservados.</p>
+          <p> link da imagem de url:https://upload.wikimedia.org/wikipedia/commons/7/74/Libri_books2.jpg</p>
+      </footer>
       </body>
     </html>
   );
