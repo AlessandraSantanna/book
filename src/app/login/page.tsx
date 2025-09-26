@@ -1,38 +1,84 @@
-import styles from "./login.module.css";
+"use client";
+
+import { useActionState } from "react";
+import { loginAction } from "./actions";
+import Link from "next/link";
+
+const inputClassName =
+  "w-full rounded-lg border border-pink-300 p-2 focus:border-pink-500 focus:ring-2 focus:ring-pink-400 outline-none";
 
 export default function Login() {
+  const [state, formAction, isPending] = useActionState(loginAction, {
+    message: "",
+    sucesso: false,
+  });
+
   return (
-    <main className={styles.main}>
-      <section className={styles.sectionLeft}>
-        <h1>📚 Organize sua leitura!</h1>
-        <p>O BookShelf é um sistema 100% online para gerenciar sua biblioteca pessoal.
-           Cadastre-se gratuitamente e comece agora mesmo a organizar seus livros.</p>
+   <main className="min-h-screen grid grid-cols-1 md:grid-cols-2" 
+      style={{ background: "var(--background)", color: "var(--foreground)" }}>
+      {/* Lado esquerdo: mensagem pagina books */}
+   <section className="flex flex-col justify-center items-center p-10 text-center"
+         style={{ background: "var(--color-bg-gradient-start)", color: "var(--color-title)" }}>
+        <h1 className="text-4xl font-bold text-pink-800 mb-4">📚 Organize sua leitura!</h1>
+        <p className="text-lg text-pink-900 max-w-md mb-6">
+          O BookShelf é um sistema 100% online para gerenciar sua biblioteca pessoal.
+          Cadastre-se gratuitamente e comece agora mesmo a organizar seus livros.
+        </p>
+        <div className="flex gap-4">
+          
+          <Link
+            href="/cadastro"
+            className="bg-white text-pink-600 border border-pink-600 px-6 py-2 rounded-full hover:bg-pink-50 transition"
+          >
+            Cadastre-se
+          </Link>
+        </div>
       </section>
 
-      <section className={styles.sectionRight}>
-        <form className={styles.form}>
-          <h2>Acesse</h2>
+      {/* Lado direito: formulário de login */}
+     <section className="flex flex-col justify-center items-center p-10"
+         style={{ background: "var(--color-card-bg)" }}>
+  <form
+    action={formAction}
+    className="w-full max-w-sm rounded-xl p-6 shadow-md flex flex-col gap-4"
+    style={{ background: "var(--color-card-bg)" }}
+  >
+          <h2 className="text-3xl font-bold text-pink-700 mb-4 text-center">Acesse</h2>
 
           <input
             type="text"
             name="email"
             placeholder="Usuário ou e-mail"
-            className={styles.input}
+            className={inputClassName}
           />
+
           <input
             type="password"
             name="senha"
             placeholder="Senha"
-            className={styles.input}
+            className={inputClassName}
           />
 
-          <button type="submit" className={styles.button}>
-            Entrar
-          </button>
+                      <button
+                type="submit"
+                className="py-2 rounded transition"
+                style={{
+                  background: "var(--color-btn-bg)",
+                  color: "var(--color-facebook-text)",
+                }}
+              >
+                {isPending ? "Entrando..." : "Entrar"}
+              </button>
 
-          <div className={styles.linkRight}>
-            <a href="/esqueci-senha">Esqueci a senha</a>
+          <div className="text-right text-sm">
+            <Link href="/esqueci-senha" className="text-pink-600 hover:underline">
+              Esqueci a senha
+            </Link>
           </div>
+
+          {state?.message && (
+            <p className="text-center text-pink-700 mt-2">{state.message}</p>
+          )}
         </form>
       </section>
     </main>
