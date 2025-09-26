@@ -1,0 +1,102 @@
+:root {
+  --primary-color: #d81b60;
+  --primary-hover: #ad1457;
+  --primary-bg: #fce4ec;
+
+  --card-bg: #fff;
+  --card-bg-alt: #f9f9f9;
+  --text-color: #222;
+  --text-muted: #666;
+  --border-radius: 12px;
+}
+
+:root.dark {
+  --primary-color: #ff80ab;
+  --primary-hover: #ff4081;
+  --primary-bg: #4a004e;
+
+  --card-bg: #1e1e1e;
+  --card-bg-alt: #2a2a2a;
+  --text-color: #f0f0f0;
+  --text-muted: #aaa;
+  --border-radius: 12px;
+}
+
+
+/* Container principal */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Seções em cartões */
+.card {
+  background: var(--card-bg);
+  color: var(--text-color);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Títulos */
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 15px;
+}
+
+/* Botão primário */
+.primaryBtn {
+  display: inline-block;
+  background: var(--primary-color);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.primaryBtn:hover {
+  background: var(--primary-hover);
+}
+
+/* Grid de livros */
+.livrosGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Livro sem capa */
+.livroSemCapa {
+  width: 200px;
+  height: 300px;
+  background: var(--card-bg-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* Gênero do livro */
+.livroGenero {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border-radius: var(--border-radius);
+  background: var(--primary-bg);
+  color: var(--primary-color);
+  font-size: 0.8rem;
+}

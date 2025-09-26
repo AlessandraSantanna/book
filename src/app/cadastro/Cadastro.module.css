@@ -1,18 +1,65 @@
-/* Container com gradiente rosa/white */
+:root {
+  --color-bg-gradient-start: #fce7f3;
+  --color-bg-gradient-end: #ffffff;
+  --color-card-bg: #ffffff;
+  --color-shadow: rgba(0, 0, 0, 0.08);
+  --color-title: #be185d;
+  --color-subtitle: #6b7280;
+  --color-input-border: #fbcfe8;
+  --color-input-focus: #ec4899;
+  --color-input-focus-shadow: rgba(236, 72, 153, 0.15);
+  --color-btn-bg: #ec4899;
+  --color-btn-hover: #db2777;
+  --color-btn-hover-shadow: rgba(236, 72, 153, 0.3);
+  --color-small-text: #6b7280;
+  --color-link: #ec4899;
+  --color-separator: #e5e7eb;
+  --color-sep-text: #9ca3af;
+  --color-google-bg: #f9fafb;
+  --color-google-text: #db4437;
+  --color-google-border: #e5e7eb;
+  --color-facebook-bg: #1877f2;
+  --color-facebook-text: #ffffff;
+}
+
+:root.dark {
+  --color-bg-gradient-start: #1f1f1f;
+  --color-bg-gradient-end: #2c2c2c;
+  --color-card-bg: #2c2c2c;
+  --color-title: #f472b6;
+  --color-subtitle: #d1d5db;
+  --color-input-border: #f472b6;
+  --color-input-focus: #f472b6;
+  --color-input-focus-shadow: rgba(244, 114, 182, 0.2);
+  --color-btn-bg: #f472b6;
+  --color-btn-hover: #be185d;
+  --color-btn-hover-shadow: rgba(244, 114, 182, 0.3);
+  --color-small-text: #d1d5db;
+  --color-link: #f472b6;
+  --color-separator: #4b5563;
+  --color-sep-text: #9ca3af;
+  --color-google-bg: #374151;
+  --color-google-text: #f87171;
+  --color-google-border: #4b5563;
+  --color-facebook-bg: #1e40af;
+  --color-facebook-text: #ffffff;
+}
+
+/* Container */
 .container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #fce7f3, #fff);
+  background: linear-gradient(135deg, var(--color-bg-gradient-start), var(--color-bg-gradient-end));
   padding: 20px;
 }
 
-/* Card central */
+/* Card */
 .card {
-  background: #ffffff;
+  background: var(--color-card-bg);
   border-radius: 24px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 25px var(--color-shadow);
   padding: 40px 32px;
   max-width: 400px;
   width: 100%;
@@ -25,21 +72,20 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Títulos */
 .title {
   font-size: 26px;
   font-weight: 700;
-  color: #be185d; /* rosa mais forte */
+  color: var(--color-title);
   margin-bottom: 6px;
 }
 
 .subtitle {
   font-size: 14px;
-  color: #6b7280;
+  color: var(--color-subtitle);
   margin-bottom: 20px;
 }
 
-/* Inputs */
+/* Form */
 .form {
   display: flex;
   flex-direction: column;
@@ -49,24 +95,23 @@
 .input {
   padding: 12px 14px;
   border-radius: 14px;
-  border: 2px solid #fbcfe8;
-  background: #fff;
+  border: 2px solid var(--color-input-border);
+  background: var(--color-card-bg);
   font-size: 14px;
   transition: all 0.2s ease;
 }
 
 .input:focus {
-  border-color: #ec4899;
-  box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.15);
+  border-color: var(--color-input-focus);
+  box-shadow: 0 0 0 4px var(--color-input-focus-shadow);
   outline: none;
 }
 
-/* Botão principal */
 .primaryBtn {
   margin-top: 10px;
   padding: 12px;
   border-radius: 14px;
-  background: #ec4899;
+  background: var(--color-btn-bg);
   color: white;
   font-weight: 600;
   font-size: 15px;
@@ -76,20 +121,19 @@
 }
 
 .primaryBtn:hover {
-  background: #db2777;
+  background: var(--color-btn-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+  box-shadow: 0 4px 12px var(--color-btn-hover-shadow);
 }
 
-/* Texto pequeno */
 .smallText {
   font-size: 13px;
-  color: #6b7280;
+  color: var(--color-small-text);
   margin: 10px 0;
 }
 
 .link {
-  color: #ec4899;
+  color: var(--color-link);
   font-weight: 600;
   text-decoration: none;
 }
@@ -98,7 +142,7 @@
   text-decoration: underline;
 }
 
-/* Separador */
+/* Separadores */
 .separatorWrap {
   display: flex;
   align-items: center;
@@ -109,16 +153,16 @@
 .line {
   flex: 1;
   height: 1px;
-  background: #e5e7eb;
+  background: var(--color-separator);
 }
 
 .sepText {
   font-size: 12px;
-  color: #9ca3af;
+  color: var(--color-sep-text);
   white-space: nowrap;
 }
 
-/* Social buttons */
+/* Botões sociais */
 .socials {
   display: flex;
   gap: 12px;
@@ -136,18 +180,41 @@
 }
 
 .socialBtnGoogle {
-  background: #f9fafb;
-  color: #db4437;
-  border: 1px solid #e5e7eb;
+  background: var(--color-google-bg);
+  color: var(--color-google-text);
+  border: 1px solid var(--color-google-border);
 }
 
 .socialBtnFacebook {
-  background: #1877f2;
-  color: #fff;
+  background: var(--color-facebook-bg);
+  color: var(--color-facebook-text);
 }
 
 .socialBtnGoogle:hover,
 .socialBtnFacebook:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Botão de tema */
+.themeToggleBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: var(--color-btn-bg);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.themeToggleBtn:hover {
+  background: var(--color-btn-hover);
 }

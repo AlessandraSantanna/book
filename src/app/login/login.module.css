@@ -1,0 +1,152 @@
+/* login.module.css */
+
+:root {
+  --color-bg-gradient-start: #fce7f3;
+  --color-bg-gradient-end: #ffffff;
+  --color-card-bg: #ffffff;
+  --color-title: #be185d;
+  --color-input-border: #fbcfe8;
+  --color-input-focus: #ec4899;
+  --color-btn-bg: #ec4899;
+  --color-btn-hover: #db2777;
+  --color-facebook-text: #ffffff;
+}
+
+:root.dark {
+  --color-bg-gradient-start: #1f1f1f;
+  --color-bg-gradient-end: #2c2c2c;
+  --color-card-bg: #2c2c2c;
+  --color-title: #f472b6;
+  --color-input-border: #f472b6;
+  --color-input-focus: #f472b6;
+  --color-btn-bg: #f472b6;
+  --color-btn-hover: #be185d;
+  --color-facebook-text: #ffffff;
+}
+
+.main {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .main {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.sectionLeft {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem;
+  text-align: center;
+  background: var(--color-bg-gradient-start);
+  color: var(--color-title);
+}
+
+.sectionLeft h1 {
+  font-size: 2.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.sectionLeft p {
+  font-size: 1.125rem;
+  max-width: 28rem;
+  margin-bottom: 1.5rem;
+}
+
+.sectionLeft a {
+  background: #fff;
+  color: var(--color-btn-bg);
+  border: 1px solid var(--color-btn-bg);
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.sectionLeft a:hover {
+  background: #fdf2f8;
+}
+
+.sectionRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem;
+  background: var(--color-card-bg);
+}
+
+.form {
+  width: 100%;
+  max-width: 24rem;
+  background: var(--color-card-bg);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form h2 {
+  font-size: 1.875rem;
+  font-weight: bold;
+  color: var(--color-title);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--color-input-border);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input:focus {
+  border-color: var(--color-input-focus);
+  box-shadow: 0 0 0 2px var(--color-input-focus);
+}
+
+.button {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: var(--color-btn-bg);
+  color: var(--color-facebook-text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.button:hover {
+  background: var(--color-btn-hover);
+}
+
+.linkRight {
+  text-align: right;
+  font-size: 0.875rem;
+}
+
+.linkRight a {
+  color: var(--color-btn-bg);
+  text-decoration: none;
+}
+
+.linkRight a:hover {
+  text-decoration: underline;
+}
+
+.message {
+  text-align: center;
+  color: var(--color-title);
+  margin-top: 0.5rem;
+}

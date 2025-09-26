@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import styles from "./Cadastro.module.css";
+import ThemeToggleButton from "../landing/ThemeToggleButton"; // ajuste o caminho conforme necessário
 
 const Cadastro: React.FC = () => {
   const [nome, setNome] = useState("");
@@ -17,6 +18,9 @@ const Cadastro: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      {/* ✅ Botão de alternância de tema dentro do JSX */}
+      <ThemeToggleButton />
+
       <div className={styles.card}>
         <h1 className={styles.title}>✨ Cadastro</h1>
         <p className={styles.subtitle}>Crie sua conta e aproveite a plataforma</p>
@@ -56,8 +60,7 @@ const Cadastro: React.FC = () => {
           <button type="submit" className={styles.primaryBtn}>
             Criar Conta
           </button>
-         <Link href="/login"
-            className={styles.primaryBtn}>
+          <Link href="/login" className={styles.primaryBtn}>
             Ir para Home
           </Link>
           <p className={styles.smallText}>
@@ -66,6 +69,10 @@ const Cadastro: React.FC = () => {
               Entrar
             </Link>
           </p>
+
+        
+
+
 
           <div className={styles.separatorWrap}>
             <div className={styles.line} />
@@ -82,6 +89,7 @@ const Cadastro: React.FC = () => {
             </button>
           </div>
         </form>
+
       </div>
     </div>
   );

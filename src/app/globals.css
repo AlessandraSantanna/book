@@ -1,26 +1,348 @@
 @import "tailwindcss";
 
+/* ===== Variáveis de tema global ===== */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --color-bg-gradient-start: #fce7f3;
+  --color-bg-gradient-end: #ffffff;
+  --color-card-bg: #ffffff;
+  --color-shadow: rgba(0, 0, 0, 0.08);
+  --color-title: #be185d;
+  --color-subtitle: #6b7280;
+  --color-input-border: #fbcfe8;
+  --color-input-focus: #ec4899;
+  --color-input-focus-shadow: rgba(236, 72, 153, 0.15);
+  --color-btn-bg: #ec4899;
+  --color-btn-hover: #db2777;
+  --color-btn-hover-shadow: rgba(236, 72, 153, 0.3);
+  --color-small-text: #6b7280;
+  --color-link: #ec4899;
+  --color-separator: #e5e7eb;
+  --color-sep-text: #9ca3af;
+  --color-google-bg: #f9fafb;
+  --color-google-text: #db4437;
+  --color-google-border: #e5e7eb;
+  --color-facebook-bg: #1877f2;
+  --color-facebook-text: #ffffff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+
+  --color-bg-gradient-start: #1f1f1f;
+  --color-bg-gradient-end: #2c2c2c;
+  --color-card-bg: #2c2c2c;
+  --color-title: #f472b6;
+  --color-subtitle: #d1d5db;
+  --color-input-border: #f472b6;
+  --color-input-focus: #f472b6;
+  --color-input-focus-shadow: rgba(244, 114, 182, 0.2);
+  --color-btn-bg: #f472b6;
+  --color-btn-hover: #be185d;
+  --color-btn-hover-shadow: rgba(244, 114, 182, 0.3);
+  --color-small-text: #d1d5db;
+  --color-link: #f472b6;
+  --color-separator: #4b5563;
+  --color-sep-text: #9ca3af;
+  --color-google-bg: #374151;
+  --color-google-text: #f87171;
+  --color-google-border: #4b5563;
+  --color-facebook-bg: #1e40af;
+  --color-facebook-text: #ffffff;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ===== Estilos base ===== */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Card */
+.card {
+  background: var(--color-card-bg);
+  color: var(--foreground);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px var(--color-shadow);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Títulos */
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-title);
+  margin-bottom: 10px;
+  
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--color-subtitle);
+  margin-bottom: 15px;
+}
+
+.smallText {
+  font-size: 0.9rem;
+  color: var(--color-small-text);
+}
+
+/* Botão primário */
+.primaryBtn {
+  display: inline-block;
+  background: var(--color-btn-bg);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.primaryBtn:hover {
+  background: var(--color-btn-hover);
+  box-shadow: 0 4px 8px var(--color-btn-hover-shadow);
+}
+
+/* Grid de livros */
+.livrosGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Livro sem capa */
+.livroSemCapa {
+  width: 200px;
+  height: 300px;
+  background: var(--color-bg-gradient-start);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  color: var(--color-subtitle);
+}
+
+/* Gênero do livro */
+.livroGenero {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: var(--color-bg-gradient-start);
+  color: var(--color-btn-bg);
+  font-size: 0.8rem;
+}
+/* ===== Funcionalidades ===== */
+.funcionalidades {
+  padding: 40px 20px;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 40px;
+  color: var(--color-title);
+}
+
+.funcionalidadesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.funcionalidadeCard {
+  background: var(--color-card-bg);
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 6px var(--color-shadow);
+  text-decoration: none;
+  color: var(--foreground);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.funcionalidadeCard:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px var(--color-btn-hover-shadow);
+}
+
+.funcionalidadeIcon {
+  display: block;
+  margin: 0 auto 16px;
+  color: var(--color-btn-bg);
+}
+
+.funcionalidadeTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.funcionalidadeText {
+  font-size: 0.95rem;
+  color: var(--color-subtitle);
+}
+/* ===== BookSearch ===== */
+.bookSearch {
+  padding: 60px 20px;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.bookSearchForm {
+  max-width: 600px;
+  margin: 0 auto 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.bookSearchInput {
+  flex: 1;
+  min-width: 250px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-input-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.bookSearchInput:focus {
+  border-color: var(--color-input-focus);
+  box-shadow: 0 0 6px var(--color-input-focus-shadow);
+}
+
+.bookSearchBtn {
+  background: var(--color-btn-bg);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.bookSearchBtn:hover {
+  background: var(--color-btn-hover);
+  box-shadow: 0 4px 8px var(--color-btn-hover-shadow);
+}
+
+.bookSearchGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.bookCard {
+  background: var(--color-card-bg);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px var(--color-shadow);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.bookCard:hover {
+  transform: translateY(-4px);
+}
+
+.bookImage {
+  display: block;
+  margin: 0 auto 16px;
+  border-radius: 8px;
+}
+
+.bookNoCover {
+  width: 200px;
+  height: 300px;
+  background: var(--color-bg-gradient-start);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--color-subtitle);
+}
+
+.bookTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-title);
+  margin-bottom: 6px;
+}
+
+.bookAuthor {
+  font-size: 0.95rem;
+  color: var(--color-subtitle);
+  margin-bottom: 10px;
+}
+
+.bookDescription {
+  font-size: 0.9rem;
+  color: var(--foreground);
+  margin-top: 10px;
+}
+
+.bookInfo {
+  font-size: 0.85rem;
+  color: var(--color-subtitle);
+  margin-top: 6px;
+}
+/* ===== Preview de Nenhum Resultado ===== */
+.bookEmpty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  background: var(--color-card-bg);
+  border-radius: 12px;
+  box-shadow: 0 2px 6px var(--color-shadow);
+  font-size: 1.1rem;
+  color: var(--color-subtitle);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.bookEmpty span {
+  font-size: 0.95rem;
+  color: var(--color-input-focus);
+  font-weight: 500;
+}
+
+/* Animação suave */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
