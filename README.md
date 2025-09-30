@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📚 BookShelfBook
 
-## Getting Started
+**BookShelfBook** é uma aplicação web desenvolvida com **React** e **Next.js** que permite aos usuários cadastrar, visualizar, editar e excluir livros de sua biblioteca pessoal. A interface é responsiva, intuitiva e conta com recursos como tema escuro, busca inteligente e filtros por gênero.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Funcionalidades
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Cadastro de livros com título, autor, ano, gênero, capa e avaliação
+- Busca por título ou autor
+- Filtro por gênero literário
+- Alternância entre tema claro e escuro
+- Edição e exclusão de livros
+- Visualização detalhada com modal
+- Persistência de dados via `localStorage`
+- Avaliação com estrelas interativas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tecnologias utilizadas
 
-## Learn More
+- [Next.js](https://nextjs.org/)
+- [React](https://react.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Lucide Icons](https://lucide.dev/)
+- [React Icons](https://react-icons.github.io/react-icons/)
+- `localStorage` para armazenamento local
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🌗 Tema escuro
+O tema escuro é ativado via botão no canto superior da tela. Ele altera variáveis CSS globais e salva a preferência do usuário com localStorage.
 
-## Deploy on Vercel
+📚 Exemplo de uso
+Preencha os campos do formulário com os dados do livro.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Clique em Adicionar Livro.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+O livro aparecerá na grade com capa, avaliação e opções de edição.
+
+Use a busca ou filtro para encontrar livros específicos.
+
+Clique no ícone 👁 para visualizar detalhes em um modal.
+
+🧠 Contribuindo
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues, sugerir melhorias ou enviar pull requests.
