@@ -63,11 +63,19 @@ export default function Biblioteca() {
       await carregarLivros();
       resetForm();
       setEditandoId(null);
-    } catch (err: any) {
-      alert("Erro ao cadastrar livro: " + (err.response?.data?.error || err.message));
-    }
-  }
+    } catch (err: unknown) {
+  const errorMessage =
+    typeof err === "object" && err !== null && "response" in err
+      ? (err as any).response?.data?.error || "Erro na requisição"
+      : err instanceof Error
+      ? err.message
+      : "Erro desconhecido";
 
+  alert("Erro ao cadastrar livro: " + errorMessage);
+}
+
+  
+  }
   function resetForm() {
     setTitulo("");
     setAutor("");
@@ -222,28 +230,28 @@ export default function Biblioteca() {
       </form>
 
       {/* --- Filtros --- */}
-      <div className={styles.filters}>
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="Buscar por título ou autor..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <select
-          className={styles.input}
-          value={filtroGenero}
-          onChange={(e) => setFiltroGenero(e.target.value)}
-        >
-          <option value="">Todos os gêneros</option>
-          <option value="Romance">Romance</option>
-          <option value="Programação">Programação</option>
-          <option value="Fantasia">Fantasia</option>
-          <option value="Autoajuda">Autoajuda</option>
-        </select>
-      </div>
+    <div className={styles.filtersContainer}>
+  <input
+    type="text"
+    className={styles.searchInput}
+    placeholder="Buscar por título ou autor"
+    value={query}
+    onChange={(e) => setQuery(e.target.value)}
+  />
 
-      {/* --- Cards --- */}
+  <select
+    className={styles.selectGenero}
+    value={filtroGenero}
+    onChange={(e) => setFiltroGenero(e.target.value)}
+  >
+    <option value="">Todos os gêneros</option>
+    <option value="Fantasia">Fantasia</option>
+    <option value="Romance">Romance</option>
+    <option value="Drama">Drama</option>
+    <option value="Tecnologia">Tecnologia</option>
+  </select>
+</div>
+
      {/* --- Cards --- */}
 <div className={styles.grid}>
   {livrosFiltrados.map((livro) => (

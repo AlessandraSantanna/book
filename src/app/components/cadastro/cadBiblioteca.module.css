@@ -183,7 +183,7 @@
   padding: 2rem;
   border-radius: 16px;
   box-shadow: 0 4px 12px var(--color-shadow);
-  max-width: 250px;
+  max-width: 400px;
   width: 90%;
   position: relative;
   color: var(--color-title);
@@ -208,31 +208,67 @@
   text-align: center;
 }
 
-/* animações */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+/* 🔍 Filtros e busca */
+.filtersContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 2rem auto 1rem;
+  max-width: 800px;
 }
 
-@keyframes slideUp {
-  from { transform: translateY(30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+
+.searchInput {
+  flex: 1;
+  min-width: 220px;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--color-input-border);
+  border-radius: 10px;
+  font-size: 1rem;
+  background: var(--color-card-bg);
+  color: var(--color-title);
+  transition: all 0.3s ease;
 }
 
+.searchInput:focus {
+  border-color: var(--color-input-focus);
+  box-shadow: 0 0 0 3px var(--color-input-focus-shadow);
+  outline: none;
+}
+
+.selectGenero {
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--color-input-border);
+  border-radius: 10px;
+  font-size: 1rem;
+  background: var(--color-card-bg);
+  color: var(--color-title);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.selectGenero:focus {
+  border-color: var(--color-input-focus);
+  box-shadow: 0 0 0 3px var(--color-input-focus-shadow);
+  outline: none;
+}
+
+.selectGenero option {
+  background: var(--color-card-bg);
+  color: var(--color-title);
+}
 
 /* Responsivo */
 @media (max-width: 600px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .footerButtons {
+  .filtersContainer {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
   }
 
-  .linkBtn {
+  .searchInput,
+  .selectGenero {
     width: 100%;
-    text-align: center;
   }
 }
