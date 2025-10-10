@@ -1,6 +1,8 @@
+// app/layout.tsx
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import  "./globals.css";
 import ThemeToggleButton from "../app/landing/ThemeToggleButton";
 
 
@@ -17,11 +19,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "📚 BookShelfBook",
   description: "biblioteca pessoal",
-  icons: {
-    icon: "/favicon.png",
-  },
+  
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,7 +37,7 @@ export default function RootLayout({
   {/* Conteúdo da página */}
   {children}
 
-  <footer className="bg-pink-100 text-black py-6 text-center">
+  <footer className="bg-pink-150  text-pink-800 py-6 text-center">
     <p>
       BookShelf by Grupo 18 Bits - Alessandra, Vanessa e Layan. Todos os
       direitos reservados.

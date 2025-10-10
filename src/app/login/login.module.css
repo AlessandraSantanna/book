@@ -1,152 +1,147 @@
-/* login.module.css */
-
-:root {
-  --color-bg-gradient-start: #fce7f3;
-  --color-bg-gradient-end: #ffffff;
-  --color-card-bg: #ffffff;
-  --color-title: #be185d;
-  --color-input-border: #fbcfe8;
-  --color-input-focus: #ec4899;
-  --color-btn-bg: #ec4899;
-  --color-btn-hover: #db2777;
-  --color-facebook-text: #ffffff;
-}
-
-:root.dark {
-  --color-bg-gradient-start: #1f1f1f;
-  --color-bg-gradient-end: #2c2c2c;
-  --color-card-bg: #2c2c2c;
-  --color-title: #f472b6;
-  --color-input-border: #f472b6;
-  --color-input-focus: #f472b6;
-  --color-btn-bg: #f472b6;
-  --color-btn-hover: #be185d;
-  --color-facebook-text: #ffffff;
-}
-
 .main {
-  min-height: 100vh;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
 }
 
-@media (min-width: 768px) {
-  .main {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.sectionLeft {
+.leftSection {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2.5rem;
+  padding: 40px;
   text-align: center;
-  background: var(--color-bg-gradient-start);
-  color: var(--color-title);
+  background-image: linear-gradient(rgba(255, 192, 203, 0.7), rgba(255, 192, 203, 0.7)), url("/book-shelf.jpg");
+  background-size: cover;
+  background-position: center;
+  color: ##ad1457; 
 }
 
-.sectionLeft h1 {
-  font-size: 2.25rem;
+.title {
+  font-size: 2.5rem;
   font-weight: bold;
-  margin-bottom: 1rem;
+  color: #c2185b;
+  margin-bottom: 20px;
 }
 
-.sectionLeft p {
+.description {
   font-size: 1.125rem;
-  max-width: 28rem;
-  margin-bottom: 1.5rem;
+  color: #ad1457;
+  max-width: 400px;
+  margin-bottom: 24px;
 }
 
-.sectionLeft a {
-  background: #fff;
-  color: var(--color-btn-bg);
-  border: 1px solid var(--color-btn-bg);
-  padding: 0.5rem 1.5rem;
-  border-radius: 9999px;
+.buttonGroup {
+  display: flex;
+  gap: 16px;
+}
+
+.signupButton {
+  background: white;
+  color: #d81b60;
+  border: 1px solid #d81b60;
+  padding: 10px 24px;
+  border-radius: 999px;
   text-decoration: none;
   transition: background 0.3s ease;
 }
 
-.sectionLeft a:hover {
-  background: #fdf2f8;
+.signupButton:hover {
+  background: #ffe4ec;
 }
 
-.sectionRight {
+.rightSection {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2.5rem;
+  padding: 40px;
   background: var(--color-card-bg);
 }
 
 .form {
   width: 100%;
-  max-width: 24rem;
+  max-width: 400px;
   background: var(--color-card-bg);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 16px;
 }
 
-.form h2 {
-  font-size: 1.875rem;
+.formTitle {
+  font-size: 2rem;
   font-weight: bold;
-  color: var(--color-title);
+  color: #d81b60;
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
 }
 
 .input {
   width: 100%;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  border: 2px solid var(--color-input-border);
+  padding: 10px;
+  border: 1px solid #f48fb1;
+  border-radius: 8px;
   outline: none;
-  transition: all 0.3s ease;
 }
 
 .input:focus {
-  border-color: var(--color-input-focus);
-  box-shadow: 0 0 0 2px var(--color-input-focus);
+  border-color: #ec407a;
+  box-shadow: 0 0 0 2px rgba(236, 64, 122, 0.3);
 }
 
-.button {
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  border: none;
+.submitButton {
+  padding: 10px;
+  border-radius: 8px;
   background: var(--color-btn-bg);
   color: var(--color-facebook-text);
-  font-weight: 600;
   cursor: pointer;
   transition: background 0.3s ease;
 }
 
-.button:hover {
-  background: var(--color-btn-hover);
-}
-
-.linkRight {
+.forgotPassword {
   text-align: right;
   font-size: 0.875rem;
 }
 
-.linkRight a {
-  color: var(--color-btn-bg);
+.forgotPassword a {
+  color: #d81b60;
   text-decoration: none;
 }
 
-.linkRight a:hover {
+.forgotPassword a:hover {
   text-decoration: underline;
 }
 
 .message {
   text-align: center;
-  color: var(--color-title);
-  margin-top: 0.5rem;
+  color: #d81b60;
+  margin-top: 8px;
+}
+@media (prefers-color-scheme: dark) {
+  .leftSection {
+    background-image: linear-gradient(
+      rgba(20, 20, 20, 0.7),
+      rgba(20, 20, 20, 0.7)
+    ), url("/book-shelf.jpg");
+    color: #d81b60; /* rosa claro para contraste */
+  }
+
+  .title,
+  .description {
+    color: #f8bbd0;
+  }
+
+  .signupButton {
+    background: #1c1c1c;
+    color: #f48fb1;
+    border-color: #f48fb1;
+  }
+
+  .signupButton:hover {
+    background: #2c2c2c;
+  }
 }

@@ -14,7 +14,7 @@ export default function BookShelfLanding() {
         </p>
         <div className="mt-8">
           <Link
-            href="/bookshelf/app"
+            href="/loading"
             className="bg-pink-600 text-white px-6 py-3 rounded-full hover:bg-pink-700 transition"
           >
             Começar agora

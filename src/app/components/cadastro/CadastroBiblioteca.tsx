@@ -1,82 +1,91 @@
 "use client";
-import { FaStar, FaRegStar } from "react-icons/fa";
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { Star, Eye, Pencil, Trash2 } from "lucide-react";
+
+import { useEffect, useState, useRef } from "react";
+import { Eye, Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 import styles from "./cadBiblioteca.module.css";
+import api from "@/lib/api";
+import { Livro } from "@/types/livro";
 
-interface Livro {
-  id: string;
-  titulo: string;
-  autor: string;
-  ano: string;
-  genero: string;
-  capa?: string;
-  avaliacao: number;
-}
-
-export default function CadastroBiblioteca() {
+export default function Biblioteca() {
   const [livros, setLivros] = useState<Livro[]>([]);
   const [query, setQuery] = useState("");
   const [filtroGenero, setFiltroGenero] = useState("");
-
   const [titulo, setTitulo] = useState("");
   const [autor, setAutor] = useState("");
-  const [ano, setAno] = useState("");
   const [genero, setGenero] = useState("");
-  const [capa, setCapa] = useState("");
-  const [avaliacao, setAvaliacao] = useState(0);
-  const [editandoId, setEditandoId] = useState<string | null>(null);
-  const [carregando, setCarregando] = useState(true);
+  const [ano_publicacao, setAnoPublicacao] = useState("");
+  const [isbn, setIsbn] = useState("");
+  const [urlCapa, setUrlCapa] = useState("");
+  const [avaliacao, setAvaliacao] = useState<number>(0);
+  const [lendo, setLendo] = useState<boolean>(false);
+  const [paginasTotal, setPaginasTotal] = useState<number>(0);
+  const [paginasLidas, setPaginasLidas] = useState<number>(0);
+  const [finalidade, setFinalidade] = useState("");
+  const [editandoId, setEditandoId] = useState<number | null>(null);
   const [livroSelecionado, setLivroSelecionado] = useState<Livro | null>(null);
 
+  // 👉 Referência para o formulário
+  const formRef = useRef<HTMLFormElement | null>(null);
+
   useEffect(() => {
-    const livrosSalvos = localStorage.getItem("livros");
-    if (livrosSalvos) {
-      setLivros(JSON.parse(livrosSalvos));
-    }
-    setCarregando(false);
+    carregarLivros();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("livros", JSON.stringify(livros));
-  }, [livros]);
-
-  function handleCadastro(e: React.FormEvent) {
-    e.preventDefault();
-    if (editandoId) {
-      setLivros((prev) =>
-        prev.map((livro) =>
-          livro.id === editandoId
-            ? { ...livro, titulo, autor, ano, genero, capa, avaliacao }
-            : livro
-        )
-      );
-      setEditandoId(null);
-    } else {
-      const novoLivro: Livro = {
-        id: crypto.randomUUID(),
-        titulo,
-        autor,
-        ano,
-        genero,
-        capa,
-        avaliacao,
-      };
-      setLivros((prev) => [...prev, novoLivro]);
-    }
-    setTitulo("");
-    setAutor("");
-    setAno("");
-    setGenero("");
-    setCapa("");
-    setAvaliacao(0);
+  async function carregarLivros() {
+    const res = await api.get("/livros");
+    setLivros(res.data);
   }
 
-  function excluirLivro(id: string) {
+  async function handleCadastro(e: React.FormEvent) {
+    e.preventDefault();
+
+    const payload = {
+      titulo: titulo.trim(),
+      autor: autor.trim(),
+      genero,
+      ano_publicacao: Number(ano_publicacao),
+      isbn: isbn.trim(),
+      url_capa: urlCapa.trim(),
+      avaliacao,
+      lendo,
+      paginas_total: paginasTotal,
+      paginas_lidas: paginasLidas,
+      finalidade,
+    };
+
+    try {
+      if (editandoId) {
+        await api.put(`/livros/${editandoId}`, payload);
+      } else {
+        await api.post("/livros", payload);
+      }
+      await carregarLivros();
+      resetForm();
+      setEditandoId(null);
+    } catch (err: any) {
+      alert("Erro ao cadastrar livro: " + (err.response?.data?.error || err.message));
+    }
+  }
+
+  function resetForm() {
+    setTitulo("");
+    setAutor("");
+    setGenero("");
+    setAnoPublicacao("");
+    setIsbn("");
+    setUrlCapa("");
+    setAvaliacao(0);
+    setLendo(false);
+    setPaginasTotal(0);
+    setPaginasLidas(0);
+    setFinalidade("");
+  }
+
+  async function excluirLivro(id: number) {
     if (confirm("Deseja realmente excluir este livro?")) {
-      setLivros((prev) => prev.filter((livro) => livro.id !== id));
+      await api.delete(`/livros/${id}`);
+      await carregarLivros();
     }
   }
 
@@ -85,212 +94,269 @@ export default function CadastroBiblioteca() {
     const correspondeBusca =
       livro.titulo.toLowerCase().includes(busca) ||
       livro.autor.toLowerCase().includes(busca);
-    const correspondeGenero = filtroGenero
-      ? livro.genero === filtroGenero
-      : true;
+    const correspondeGenero = filtroGenero ? livro.genero === filtroGenero : true;
     return correspondeBusca && correspondeGenero;
   });
-
-  if (carregando) return null;
 
   return (
     <section className={styles.section}>
       <h2 className={styles.sectionTitle}>📚 Biblioteca</h2>
 
-      {/* Formulário */}
-      <form onSubmit={handleCadastro} className={styles.form}>
+      {/* --- Formulário --- */}
+      <form ref={formRef} onSubmit={handleCadastro} className={styles.form}>
         <h3 className={styles.formTitle}>
-          {editandoId ? "Editar livro" : "Cadastrar novo livro"}
+          {editandoId ? "Editar Livro" : "Cadastrar novo livro"}
         </h3>
+
+        <label className={styles.label}>Título</label>
         <input
+          className={styles.input}
           type="text"
-          placeholder="Título"
           value={titulo}
           onChange={(e) => setTitulo(e.target.value)}
-          className={styles.input}
           required
         />
+
+        <label className={styles.label}>Autor</label>
         <input
+          className={styles.input}
           type="text"
-          placeholder="Autor"
           value={autor}
           onChange={(e) => setAutor(e.target.value)}
-          className={styles.input}
           required
         />
+
+        <label className={styles.label}>Ano de publicação</label>
         <input
-          type="text"
-          placeholder="Ano de publicação"
-          value={ano}
-          onChange={(e) => setAno(e.target.value)}
           className={styles.input}
+          type="number"
+          value={ano_publicacao}
+          onChange={(e) => setAnoPublicacao(e.target.value)}
         />
+
+        <label className={styles.label}>ISBN</label>
+        <input
+          className={styles.input}
+          type="text"
+          value={isbn}
+          onChange={(e) => setIsbn(e.target.value)}
+          required
+        />
+
+        <label className={styles.label}>Gênero</label>
         <select
+          className={styles.input}
           value={genero}
           onChange={(e) => setGenero(e.target.value)}
-          className={styles.input}
         >
           <option value="">Selecione o gênero</option>
           <option value="Romance">Romance</option>
-          <option value="Fábula">Fábula</option>
+          <option value="Programação">Programação</option>
           <option value="Fantasia">Fantasia</option>
           <option value="Autoajuda">Autoajuda</option>
         </select>
+
+        <label className={styles.label}>URL da capa</label>
         <input
-          type="url"
-          placeholder="URL da capa"
-          value={capa}
-          onChange={(e) => setCapa(e.target.value)}
           className={styles.input}
+          type="text"
+          value={urlCapa}
+          onChange={(e) => setUrlCapa(e.target.value)}
         />
-        <div>
-          <label className={styles.label}>Avaliação</label>
-          <input
-            type="number"
-            placeholder="Avaliação (1 a 5)"
-            value={avaliacao}
-            onChange={(e) => setAvaliacao(Number(e.target.value))}
-            min={1}
-            max={5}
-            className={styles.input}
-          />
+
+        <label className={styles.label}>Avaliação</label>
+        <div className={styles.stars}>
+          {[...Array(5)].map((_, i) => (
+            <span
+              key={i}
+              className={i < avaliacao ? styles.starFull : styles.starEmpty}
+              onClick={() => setAvaliacao(i + 1)}
+              style={{ cursor: "pointer" }}
+            >
+              ★
+            </span>
+          ))}
         </div>
-        <button type="submit" className={styles.button}>
-          {editandoId ? "Salvar alterações" : "Adicionar Livro"}
+
+        <label className={styles.label}>📖 Está lendo?</label>
+        <select
+          className={styles.input}
+          value={lendo ? "sim" : "nao"}
+          onChange={(e) => setLendo(e.target.value === "sim")}
+        >
+          <option value="nao">Não</option>
+          <option value="sim">Sim</option>
+        </select>
+
+        <label className={styles.label}>📘 Total de páginas</label>
+        <input
+          className={styles.input}
+          type="number"
+          min="0"
+          value={paginasTotal}
+          onChange={(e) => setPaginasTotal(Number(e.target.value))}
+        />
+
+        <label className={styles.label}>📗 Páginas lidas</label>
+        <input
+          className={styles.input}
+          type="number"
+          min="0"
+          max={paginasTotal}
+          value={paginasLidas}
+          onChange={(e) => setPaginasLidas(Number(e.target.value))}
+        />
+
+        <label className={styles.label}>🎯 Finalidade</label>
+        <input
+          className={styles.input}
+          type="text"
+          value={finalidade}
+          onChange={(e) => setFinalidade(e.target.value)}
+          placeholder="Ex: estudo, lazer..."
+        />
+
+        <button className={styles.button} type="submit">
+          {editandoId ? "Salvar Alterações" : "Adicionar Livro"}
         </button>
       </form>
 
-      {/* Busca e Filtro */}
+      {/* --- Filtros --- */}
       <div className={styles.filters}>
         <input
+          className={styles.input}
           type="text"
+          placeholder="Buscar por título ou autor..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Buscar por título ou autor..."
-          className={styles.input}
         />
         <select
+          className={styles.input}
           value={filtroGenero}
           onChange={(e) => setFiltroGenero(e.target.value)}
-          className={styles.input}
         >
           <option value="">Todos os gêneros</option>
           <option value="Romance">Romance</option>
-          <option value="Fábula">Fábula</option>
+          <option value="Programação">Programação</option>
           <option value="Fantasia">Fantasia</option>
           <option value="Autoajuda">Autoajuda</option>
         </select>
       </div>
 
-      {/* Cards */}
-      <div className={styles.grid}>
-        {livrosFiltrados.map((livro) => (
-          <div key={livro.id} className={styles.card}>
-            {livro.capa ? (
-              <Image
-                src={livro.capa}
-                alt={livro.titulo}
-                width={200}
-                height={300}
-                className={styles.image}
-              />
-            ) : (
-              <div className={styles.noCover}>Sem capa</div>
-            )}
-            <h3 className={styles.bookTitle}>{livro.titulo}</h3>
-            <p className={styles.bookAuthor}>
-              {livro.autor} • {livro.ano}
-            </p>
-            <div className={styles.stars}>
-              {[...Array(5)].map((_, i) =>
-                i < livro.avaliacao ? <FaStar key={i} /> : <FaRegStar key={i} />
-              )}
-            </div>
-            <div className={styles.genre}>{livro.genero}</div>
-            <div className={styles.actions}>
-              <button
-                onClick={() => {
-                  setEditandoId(livro.id);
-                  setTitulo(livro.titulo);
-                  setAutor(livro.autor);
-                  setAno(livro.ano);
-                  setGenero(livro.genero);
-                  setCapa(livro.capa || "");
-                  setAvaliacao(livro.avaliacao);
-                }}
-              >
-                <Pencil size={20} />
-              </button>
-              <button onClick={() => excluirLivro(livro.id)}>
-                <Trash2 size={20} />
-              </button>
-              <button onClick={() => setLivroSelecionado(livro)}>
-                <Eye size={20} />
-              </button>
-            </div>
-          </div>
+      {/* --- Cards --- */}
+     {/* --- Cards --- */}
+<div className={styles.grid}>
+  {livrosFiltrados.map((livro) => (
+    <div key={livro.id} className={styles.card}>
+      {livro.url_capa ? (
+        <img
+          src={livro.url_capa}
+          alt="Capa do livro"
+          className={styles.image}
+        />
+      ) : (
+        <div className={styles.noCover}>Sem capa</div>
+      )}
+
+      <div className={styles.bookTitle}>{livro.titulo}</div>
+      <div className={styles.bookAuthor}>
+        {livro.autor} • {livro.ano_publicacao}
+      </div>
+
+      {/* Finalidade */}
+      {livro.finalidade && (
+        <div className={styles.bookPurpose}>
+          🎯 {livro.finalidade}
+        </div>
+      )}
+
+      {/* Avaliação */}
+      <div className={styles.rating}>
+        {[...Array(5)].map((_, i) => (
+          <span
+            key={i}
+            className={i < livro.avaliacao ? styles.starFull : styles.starEmpty}
+          >
+            ★
+          </span>
         ))}
       </div>
 
-      {/* Modal */}
+      <div className={styles.actions}>
+        <button
+          onClick={() => {
+            setEditandoId(livro.id);
+            setTitulo(livro.titulo);
+            setAutor(livro.autor);
+            setGenero(livro.genero);
+            setAnoPublicacao(String(livro.ano_publicacao));
+            setIsbn(livro.isbn);
+            setUrlCapa(livro.url_capa || "");
+            setAvaliacao(livro.avaliacao);
+            setLendo(livro.lendo);
+            setPaginasTotal(livro.paginas_total);
+            setPaginasLidas(livro.paginas_lidas);
+            setFinalidade(livro.finalidade || "");
+
+            // 🔽 Rolagem suave até o formulário
+            formRef.current?.scrollIntoView({ behavior: "smooth" });
+          }}
+        >
+          <Pencil size={20} />
+        </button>
+
+        <button onClick={() => excluirLivro(livro.id)}>
+          <Trash2 size={20} />
+        </button>
+
+        <button onClick={() => setLivroSelecionado(livro)}>
+          <Eye size={20} />
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
+
+      {/* --- Modal --- */}
       {livroSelecionado && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setLivroSelecionado(null)}
+        >
+          <div
+            className={styles.modal}
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
-              onClick={() => setLivroSelecionado(null)}
               className={styles.modalClose}
+              onClick={() => setLivroSelecionado(null)}
             >
               ✖
             </button>
             <h3 className={styles.modalTitle}>{livroSelecionado.titulo}</h3>
-            <p>
-              <strong>Autor:</strong> {livroSelecionado.autor}
-            </p>
-            <p>
-              <strong>Ano:</strong> {livroSelecionado.ano}
-            </p>
-            <p>
-              <strong>Gênero:</strong> {livroSelecionado.genero}
-            </p>
-            <p>
-              <strong>Avaliação:</strong>{" "}
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={18}
-                  className={
-                    i < livroSelecionado.avaliacao ? styles.starFull : styles.starEmpty
-                  }
-                />
-              ))}
-            </p>
-            {livroSelecionado.capa ? (
-              <Image
-                src={livroSelecionado.capa}
-                alt={livroSelecionado.titulo}
-                width={200}
-                height={300}
-                className={styles.image}
+            {livroSelecionado.url_capa && (
+              <img
+                src={livroSelecionado.url_capa}
+                alt="Capa do livro"
+                style={{ width: "100%", borderRadius: "8px", marginBottom: "1rem" }}
               />
-            ) : (
-              <div className={styles.noCover}>Sem capa</div>
             )}
+            <p><b>Autor:</b> {livroSelecionado.autor}</p>
+            <p><b>Ano:</b> {livroSelecionado.ano_publicacao}</p>
+            <p><b>Gênero:</b> {livroSelecionado.genero}</p>
+            <p><b>ISBN:</b> {livroSelecionado.isbn}</p>
+            <p><b>Lendo:</b> {livroSelecionado.lendo ? "Sim" : "Não"}</p>
+            <p><b>Páginas:</b> {livroSelecionado.paginas_lidas}/{livroSelecionado.paginas_total}</p>
+            <p><b>Finalidade:</b> {livroSelecionado.finalidade}</p>
+            <p><b>Avaliação:</b> {livroSelecionado.avaliacao}</p>
           </div>
         </div>
       )}
 
-      {/* Botão para voltar */}
-      <div className={styles.footer}>
-        <Link href="/landing" className={styles.linkBtn}>
-          Ir para Minha Estante
-        </Link>
-        
+      <div className={styles.footerButtons}>
+        <Link className={styles.linkBtn} href="/landing">Ir para Minha Estante</Link>
+        <Link className={styles.linkBtn} href="/login">Sair</Link>
       </div>
-       <div className={styles.footer}>
-        <Link href="/login" className={styles.linkBtn}>
-          Sair
-        </Link>
-        </div>
     </section>
   );
 }
