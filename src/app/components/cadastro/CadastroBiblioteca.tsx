@@ -64,18 +64,16 @@ export default function Biblioteca() {
       resetForm();
       setEditandoId(null);
     } catch (err: unknown) {
-  const errorMessage =
-    typeof err === "object" && err !== null && "response" in err
-      ? (err as any).response?.data?.error || "Erro na requisição"
-      : err instanceof Error
-      ? err.message
-      : "Erro desconhecido";
-
-  alert("Erro ao cadastrar livro: " + errorMessage);
-}
-
-  
+      let errorMessage = "Erro desconhecido";
+      if (isAxiosError(err)) {
+        errorMessage = err.response?.data?.error || "Erro na requisição";
+      } else if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      alert("Erro ao cadastrar livro: " + errorMessage);
+    }
   }
+
   function resetForm() {
     setTitulo("");
     setAutor("");
@@ -366,5 +364,13 @@ export default function Biblioteca() {
         <Link className={styles.linkBtn} href="/login">Sair</Link>
       </div>
     </section>
+  );
+}
+
+function isAxiosError(error: unknown): error is { response?: { data?: { error?: string } } } {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "response" in error
   );
 }
