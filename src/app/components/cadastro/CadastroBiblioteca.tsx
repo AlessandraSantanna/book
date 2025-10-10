@@ -11,6 +11,7 @@ export default function Biblioteca() {
   const [livros, setLivros] = useState<Livro[]>([]);
   const [query, setQuery] = useState("");
   const [filtroGenero, setFiltroGenero] = useState("");
+
   const [titulo, setTitulo] = useState("");
   const [autor, setAutor] = useState("");
   const [genero, setGenero] = useState("");
@@ -25,7 +26,7 @@ export default function Biblioteca() {
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [livroSelecionado, setLivroSelecionado] = useState<Livro | null>(null);
 
-  // 👉 Referência para o formulário
+  // Referência para rolar até o formulário quando editar
   const formRef = useRef<HTMLFormElement | null>(null);
 
   useEffect(() => {
@@ -228,100 +229,97 @@ export default function Biblioteca() {
       </form>
 
       {/* --- Filtros --- */}
-    <div className={styles.filtersContainer}>
-  <input
-    type="text"
-    className={styles.searchInput}
-    placeholder="Buscar por título ou autor"
-    value={query}
-    onChange={(e) => setQuery(e.target.value)}
-  />
-
-  <select
-    className={styles.selectGenero}
-    value={filtroGenero}
-    onChange={(e) => setFiltroGenero(e.target.value)}
-  >
-    <option value="">Todos os gêneros</option>
-    <option value="Fantasia">Fantasia</option>
-    <option value="Romance">Romance</option>
-    <option value="Drama">Drama</option>
-    <option value="Tecnologia">Tecnologia</option>
-  </select>
-</div>
-
-     {/* --- Cards --- */}
-<div className={styles.grid}>
-  {livrosFiltrados.map((livro) => (
-    <div key={livro.id} className={styles.card}>
-      {livro.url_capa ? (
-        <img
-          src={livro.url_capa}
-          alt="Capa do livro"
-          className={styles.image}
+      <div className={styles.filtersContainer}>
+        <input
+          type="text"
+          className={styles.searchInput}
+          placeholder="Buscar por título ou autor"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
         />
-      ) : (
-        <div className={styles.noCover}>Sem capa</div>
-      )}
 
-      <div className={styles.bookTitle}>{livro.titulo}</div>
-      <div className={styles.bookAuthor}>
-        {livro.autor} • {livro.ano_publicacao}
+        <select
+          className={styles.selectGenero}
+          value={filtroGenero}
+          onChange={(e) => setFiltroGenero(e.target.value)}
+        >
+          <option value="">Todos os gêneros</option>
+          <option value="Fantasia">Fantasia</option>
+          <option value="Romance">Romance</option>
+          <option value="Drama">Drama</option>
+          <option value="Tecnologia">Tecnologia</option>
+        </select>
       </div>
 
-      {/* Finalidade */}
-      {livro.finalidade && (
-        <div className={styles.bookPurpose}>
-          🎯 {livro.finalidade}
-        </div>
-      )}
+      {/* --- Cards --- */}
+      <div className={styles.grid}>
+        {livrosFiltrados.map((livro) => (
+          <div key={livro.id} className={styles.card}>
+            {livro.url_capa ? (
+              <img
+                src={livro.url_capa}
+                alt="Capa do livro"
+                className={styles.image}
+              />
+            ) : (
+              <div className={styles.noCover}>Sem capa</div>
+            )}
 
-      {/* Avaliação */}
-      <div className={styles.rating}>
-        {[...Array(5)].map((_, i) => (
-          <span
-            key={i}
-            className={i < livro.avaliacao ? styles.starFull : styles.starEmpty}
-          >
-            ★
-          </span>
+            <div className={styles.bookTitle}>{livro.titulo}</div>
+            <div className={styles.bookAuthor}>
+              {livro.autor} • {livro.ano_publicacao}
+            </div>
+
+            {livro.finalidade && (
+              <div className={styles.bookPurpose}>
+                🎯 {livro.finalidade}
+              </div>
+            )}
+
+            <div className={styles.rating}>
+              {[...Array(5)].map((_, i) => (
+                <span
+                  key={i}
+                  className={i < livro.avaliacao ? styles.starFull : styles.starEmpty}
+                >
+                  ★
+                </span>
+              ))}
+            </div>
+
+            <div className={styles.actions}>
+              <button
+                onClick={() => {
+                  setEditandoId(livro.id);
+                  setTitulo(livro.titulo);
+                  setAutor(livro.autor);
+                  setGenero(livro.genero);
+                  setAnoPublicacao(String(livro.ano_publicacao));
+                  setIsbn(livro.isbn);
+                  setUrlCapa(livro.url_capa || "");
+                  setAvaliacao(livro.avaliacao);
+                  setLendo(livro.lendo);
+                  setPaginasTotal(livro.paginas_total);
+                  setPaginasLidas(livro.paginas_lidas);
+                  setFinalidade(livro.finalidade || "");
+
+                  formRef.current?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                <Pencil size={20} />
+              </button>
+
+              <button onClick={() => excluirLivro(livro.id)}>
+                <Trash2 size={20} />
+              </button>
+
+              <button onClick={() => setLivroSelecionado(livro)}>
+                <Eye size={20} />
+              </button>
+            </div>
+          </div>
         ))}
       </div>
-
-      <div className={styles.actions}>
-        <button
-          onClick={() => {
-            setEditandoId(livro.id);
-            setTitulo(livro.titulo);
-            setAutor(livro.autor);
-            setGenero(livro.genero);
-            setAnoPublicacao(String(livro.ano_publicacao));
-            setIsbn(livro.isbn);
-            setUrlCapa(livro.url_capa || "");
-            setAvaliacao(livro.avaliacao);
-            setLendo(livro.lendo);
-            setPaginasTotal(livro.paginas_total);
-            setPaginasLidas(livro.paginas_lidas);
-            setFinalidade(livro.finalidade || "");
-
-            // 🔽 Rolagem suave até o formulário
-            formRef.current?.scrollIntoView({ behavior: "smooth" });
-          }}
-        >
-          <Pencil size={20} />
-        </button>
-
-        <button onClick={() => excluirLivro(livro.id)}>
-          <Trash2 size={20} />
-        </button>
-
-        <button onClick={() => setLivroSelecionado(livro)}>
-          <Eye size={20} />
-        </button>
-      </div>
-    </div>
-  ))}
-</div>
 
       {/* --- Modal --- */}
       {livroSelecionado && (
@@ -329,10 +327,7 @@ export default function Biblioteca() {
           className={styles.modalOverlay}
           onClick={() => setLivroSelecionado(null)}
         >
-          <div
-            className={styles.modal}
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <button
               className={styles.modalClose}
               onClick={() => setLivroSelecionado(null)}
@@ -344,7 +339,11 @@ export default function Biblioteca() {
               <img
                 src={livroSelecionado.url_capa}
                 alt="Capa do livro"
-                style={{ width: "100%", borderRadius: "8px", marginBottom: "1rem" }}
+                style={{
+                  width: "100%",
+                  borderRadius: "8px",
+                  marginBottom: "1rem",
+                }}
               />
             )}
             <p><b>Autor:</b> {livroSelecionado.autor}</p>
@@ -352,7 +351,10 @@ export default function Biblioteca() {
             <p><b>Gênero:</b> {livroSelecionado.genero}</p>
             <p><b>ISBN:</b> {livroSelecionado.isbn}</p>
             <p><b>Lendo:</b> {livroSelecionado.lendo ? "Sim" : "Não"}</p>
-            <p><b>Páginas:</b> {livroSelecionado.paginas_lidas}/{livroSelecionado.paginas_total}</p>
+            <p>
+              <b>Páginas:</b>{" "}
+              {livroSelecionado.paginas_lidas}/{livroSelecionado.paginas_total}
+            </p>
             <p><b>Finalidade:</b> {livroSelecionado.finalidade}</p>
             <p><b>Avaliação:</b> {livroSelecionado.avaliacao}</p>
           </div>
@@ -360,17 +362,19 @@ export default function Biblioteca() {
       )}
 
       <div className={styles.footerButtons}>
-        <Link className={styles.linkBtn} href="/landing">Ir para Minha Estante</Link>
-        <Link className={styles.linkBtn} href="/login">Sair</Link>
+        <Link className={styles.linkBtn} href="/landing">
+          Ir para Minha Estante
+        </Link>
+        <Link className={styles.linkBtn} href="/login">
+          Sair
+        </Link>
       </div>
     </section>
   );
 }
 
-function isAxiosError(error: unknown): error is { response?: { data?: { error?: string } } } {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "response" in error
-  );
+function isAxiosError(
+  error: unknown
+): error is { response?: { data?: { error?: string } } } {
+  return typeof error === "object" && error !== null && "response" in error;
 }
