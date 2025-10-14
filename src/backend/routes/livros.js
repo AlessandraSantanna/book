@@ -1,14 +1,14 @@
-// routes/livros.js 
+// routes/livros.js
 import express from "express";
-import { pool } from "../db.js";
+import pool from "../db.js";
 
 const router = express.Router();
 
-// LISTAR (mantém)
+// LISTAR
 router.get("/", async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM livros");
-    res.json(rows);
+    const result = await pool.query("SELECT * FROM livros");
+    res.json(result.rows);
   } catch (err) {
     console.error("Erro ao listar livros:", err);
     res.status(500).json({ error: "Erro ao buscar livros" });
@@ -18,7 +18,6 @@ router.get("/", async (req, res) => {
 // CRIAR
 router.post("/", async (req, res) => {
   try {
-    // parse e defaults seguros
     const {
       titulo = "",
       autor = "",
@@ -33,35 +32,33 @@ router.post("/", async (req, res) => {
       finalidade = null,
     } = req.body;
 
-    console.log("POST /livros payload:", req.body);
-
-    // validação básica
     if (!titulo.trim() || !autor.trim() || !isbn.trim()) {
       return res.status(400).json({ error: "titulo, autor e isbn são obrigatórios" });
     }
 
-    const [result] = await pool.query(
-      `INSERT INTO livros 
-       (titulo, autor, genero, ano_publicacao, isbn, url_capa, avaliacao, lendo, paginas_total, paginas_lidas, finalidade)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        titulo.trim(),
-        autor.trim(),
-        genero,
-        ano_publicacao ? Number(ano_publicacao) : null,
-        isbn.trim(),
-        url_capa || null,
-        Number(avaliacao) || 0,
-        lendo ? 1 : 0,
-        Number(paginas_total) || 0,
-        Number(paginas_lidas) || 0,
-        finalidade || null,
-      ]
-    );
+    const insertQuery = `
+      INSERT INTO livros
+      (titulo, autor, genero, ano_publicacao, isbn, url_capa, avaliacao, lendo, paginas_total, paginas_lidas, finalidade)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+      RETURNING *;
+    `;
 
-    // pegar o registro recém-criado pra garantir formato de retorno
-    const [rows] = await pool.query("SELECT * FROM livros WHERE id = ?", [result.insertId]);
-    res.status(201).json(rows[0]);
+    const values = [
+      titulo.trim(),
+      autor.trim(),
+      genero,
+      ano_publicacao ? Number(ano_publicacao) : null,
+      isbn.trim(),
+      url_capa || null,
+      Number(avaliacao) || 0,
+      lendo ? true : false,
+      Number(paginas_total) || 0,
+      Number(paginas_lidas) || 0,
+      finalidade || null,
+    ];
+
+    const result = await pool.query(insertQuery, values);
+    res.status(201).json(result.rows[0]);
   } catch (err) {
     console.error("Erro ao cadastrar livro:", err);
     res.status(500).json({ error: "Erro ao cadastrar livro" });
@@ -86,55 +83,56 @@ router.put("/:id", async (req, res) => {
       finalidade = null,
     } = req.body;
 
-    const [verifica] = await pool.query("SELECT id FROM livros WHERE id = ?", [id]);
-    if (verifica.length === 0) return res.status(404).json({ error: "Livro não encontrado" });
+    const verifica = await pool.query("SELECT id FROM livros WHERE id = $1", [id]);
+    if (verifica.rows.length === 0)
+      return res.status(404).json({ error: "Livro não encontrado" });
 
-    await pool.query(
-      `UPDATE livros SET
-         titulo=?, autor=?, genero=?, ano_publicacao=?, isbn=?, url_capa=?, avaliacao=?, lendo=?, paginas_total=?, paginas_lidas=?, finalidade=?
-       WHERE id = ?`,
-      [
-        titulo.trim(),
-        autor.trim(),
-        genero,
-        ano_publicacao ? Number(ano_publicacao) : null,
-        isbn.trim(),
-        url_capa || null,
-        Number(avaliacao) || 0,
-        lendo ? 1 : 0,
-        Number(paginas_total) || 0,
-        Number(paginas_lidas) || 0,
-        finalidade || null,
-        id,
-      ]
-    );
+    const updateQuery = `
+      UPDATE livros SET
+        titulo=$1, autor=$2, genero=$3, ano_publicacao=$4, isbn=$5, url_capa=$6,
+        avaliacao=$7, lendo=$8, paginas_total=$9, paginas_lidas=$10, finalidade=$11
+      WHERE id=$12
+      RETURNING *;
+    `;
 
-    const [rows] = await pool.query("SELECT * FROM livros WHERE id = ?", [id]);
-    res.json(rows[0]);
+    const values = [
+      titulo.trim(),
+      autor.trim(),
+      genero,
+      ano_publicacao ? Number(ano_publicacao) : null,
+      isbn.trim(),
+      url_capa || null,
+      Number(avaliacao) || 0,
+      lendo ? true : false,
+      Number(paginas_total) || 0,
+      Number(paginas_lidas) || 0,
+      finalidade || null,
+      id,
+    ];
+
+    const result = await pool.query(updateQuery, values);
+    res.json(result.rows[0]);
   } catch (err) {
     console.error("Erro ao atualizar livro:", err);
     res.status(500).json({ error: "Erro ao atualizar livro" });
   }
-  });
-  // EXCLUIR
+});
 
+// EXCLUIR
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    const [verifica] = await pool.query("SELECT id FROM livros WHERE id = ?", [id]);
-    if (verifica.length === 0) {
+    const verifica = await pool.query("SELECT id FROM livros WHERE id = $1", [id]);
+    if (verifica.rows.length === 0)
       return res.status(404).json({ error: "Livro não encontrado" });
-    }
 
-    await pool.query("DELETE FROM livros WHERE id = ?", [id]);
-    res.status(204).send(); // Sem conteúdo, mas sucesso
+    await pool.query("DELETE FROM livros WHERE id = $1", [id]);
+    res.status(204).send();
   } catch (err) {
     console.error("Erro ao excluir livro:", err);
     res.status(500).json({ error: "Erro ao excluir livro" });
   }
 });
-
-
 
 export default router;

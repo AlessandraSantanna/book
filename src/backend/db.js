@@ -1,19 +1,14 @@
+import pg from "pg";
+const { Pool } = pg;
 
-import mysql from "mysql2/promise";
-import dotenv from "dotenv";
-
-dotenv.config();
-
-const connection = await mysql.createPool(process.env.DATABASE_URL);
-const pool = mysql.createPool({
-  uri: process.env.DATABASE_URL,
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
-export default connection;
-
-
-
-
+export default pool;
 
 
 /*import mysql from "mysql2/promise";
