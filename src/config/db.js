@@ -1,13 +1,16 @@
-import mysql from "mysql2/promise";
+import pg from "pg";
+const { Pool } = pg;
 
-export const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",        // seu usuário MySQL
-  password: "123456", // sua senha
-  database: "estante_livros",
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL, // ✅ usa variável do Render
+  ssl: {
+    rejectUnauthorized: false, // obrigatório para Render/PostgreSQL
+  },
 });
 
-console.log("✅ Conexão com o MySQL configurada (usando pool).");
+pool
+  .connect()
+  .then(() => console.log("✅ Conectado ao PostgreSQL Render com sucesso!"))
+  .catch((err) => console.error("❌ Erro ao conectar ao banco:", err));
+
+export default pool;
