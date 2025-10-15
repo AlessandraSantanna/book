@@ -1,8 +1,9 @@
 // src/lib/api.ts
+// src/lib/api.ts
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL, // vai pegar do .env
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: { "Content-Type": "application/json" },
 });
 
