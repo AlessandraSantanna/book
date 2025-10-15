@@ -4,21 +4,17 @@ import pool from "./db.js";
 import livrosRouter from "./routes/livros.js";
 
 const app = express();
-
-// 🧠 Declare a porta primeiro:
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
 app.use("/api/livros", livrosRouter);
 
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor rodando na porta ${PORT}`);
-
-  app.get("/", (req, res) => {
+// Rota raiz
+app.get("/", (req, res) => {
   res.send("✅ API do Book está online!");
 });
 
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
-
-

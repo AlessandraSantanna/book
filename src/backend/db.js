@@ -1,10 +1,11 @@
-import pg from "pg";
-const { Pool } = pg;
+import pkg from 'pg';
+const { Pool } = pkg;
 
+// URL de conexão que você forneceu
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: 'postgresql://bookdb_orp5_user:QfpV00AwioM6Qx3hEGAV0WMAn6NK4NB3@dpg-d3mqgfj3fgac73a1c0g0-a.oregon-postgres.render.com:5432/bookdb_orp5',
   ssl: {
-    rejectUnauthorized: false,
+    rejectUnauthorized: false, // necessário para algumas conexões remotas
   },
 });
 
