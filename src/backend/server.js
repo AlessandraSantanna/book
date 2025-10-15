@@ -5,8 +5,15 @@ import livrosRouter from "./routes/livros.js";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+app.use(cors({
+  origin: [
+    "https://book-three-neon.vercel.app", // seu frontend deployado
+    "http://localhost:3000" // para funcionar local também
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type"],
+}));
 
-app.use(cors());
 app.use(express.json());
 app.use("/api/livros", livrosRouter);
 
