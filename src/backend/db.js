@@ -1,15 +1,23 @@
-import pkg from 'pg';
+import pkg from "pg";
 const { Pool } = pkg;
 
-// URL de conexão que você forneceu
 const pool = new Pool({
-  connectionString: 'postgresql://bookdb_orp5_user:QfpV00AwioM6Qx3hEGAV0WMAn6NK4NB3@dpg-d3mqgfj3fgac73a1c0g0-a.oregon-postgres.render.com:5432/bookdb_orp5',
+  connectionString:
+    process.env.DATABASE_URL ||
+    "postgresql://bookdb_orp5_user:QfpV00AwioM6Qx3hEGAV0WMAn6NK4NB3@dpg-d3mqgfj3fgac73a1c0g0-a.oregon-postgres.render.com/bookdb_orp5",
   ssl: {
-    rejectUnauthorized: false, // necessário para algumas conexões remotas
+    rejectUnauthorized: false, // necessário para conexões seguras no Render
   },
 });
 
+pool
+  .connect()
+  .then(() => console.log("✅ Conexão com o banco 'bookdb_orp5' bem-sucedida"))
+  .catch((err) => console.error("❌ Erro ao conectar ao banco:", err));
+
 export default pool;
+
+
 
 
 /*import mysql from "mysql2/promise";
