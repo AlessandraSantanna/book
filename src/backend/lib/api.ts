@@ -1,5 +1,3 @@
-// src/lib/api.ts
-// src/lib/api.ts
 import axios from "axios";
 
 const api = axios.create({
@@ -8,3 +6,4 @@ const api = axios.create({
 });
 
 export default api;
+

@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 import styles from "./cadBiblioteca.module.css";
-import api from "@/lib/api";
+import api from "@/backend/lib/api";
 import { Livro } from "@/types/livro";
 
 export default function Biblioteca() {

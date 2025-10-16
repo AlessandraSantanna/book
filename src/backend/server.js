@@ -13,7 +13,19 @@ app.use(cors({
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type"],
+
+
 }));
+aapp.use(
+  cors({
+    origin: [
+      "https://book-three-neon.vercel.app", // frontend na Vercel
+      "http://localhost:3000",               // dev local
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 
 app.use(express.json());
 app.use("/api/livros", livrosRouter);
