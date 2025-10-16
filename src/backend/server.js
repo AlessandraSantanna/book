@@ -16,7 +16,7 @@ app.use(cors({
 
 
 }));
-aapp.use(
+app.use(
   cors({
     origin: [
       "https://book-three-neon.vercel.app", // frontend na Vercel
