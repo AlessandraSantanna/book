@@ -1,27 +1,4 @@
 
-:root.dark {
-  --color-bg-gradient-start: #1f1f1f;
-  --color-bg-gradient-end: #2c2c2c;
-  --color-card-bg: #2c2c2c;
-  --color-title: #f472b6;
-  --color-subtitle: #d1d5db;
-  --color-input-border: #f472b6;
-  --color-input-focus: #f472b6;
-  --color-input-focus-shadow: rgba(244, 114, 182, 0.2);
-  --color-btn-bg: #f472b6;
-  --color-btn-hover: #be185d;
-  --color-btn-hover-shadow: rgba(244, 114, 182, 0.3);
-  --color-small-text: #d1d5db;
-  --color-link: #f472b6;
-  --color-separator: #4b5563;
-  --color-sep-text: #9ca3af;
-  --color-google-bg: #374151;
-  --color-google-text: #f87171;
-  --color-google-border: #4b5563;
-  --color-facebook-bg: #1e40af;
-  --color-facebook-text: #ffffff;
-}
-
 /* Container */
 .container {
   min-height: 100vh;
