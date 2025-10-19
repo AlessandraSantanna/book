@@ -1,13 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
- 
   images: {
     domains: [
-      "pt.wikipedia.org",        // ✅ necessário para a imagem que você usou
-      "upload.wikimedia.org",    // outras imagens da Wikipédia
-      "books.google.com",        // se usar imagens do Google Books
-      'm.media-amazon.com', 'livrariacultura.vteximg.com.br'          // qualquer outro domínio que você use
+      "pt.wikipedia.org",
+      "upload.wikimedia.org",
+      "books.google.com",
+      "m.media-amazon.com",
+      "livrariacultura.vteximg.com.br",
     ],
     remotePatterns: [
       {
