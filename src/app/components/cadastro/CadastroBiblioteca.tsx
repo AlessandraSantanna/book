@@ -6,8 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./cadBiblioteca.module.css";
 import api from "@/lib/api";
-import { Livro } from "@/types/livro";
 import { isAxiosError } from "axios";
+import { Livro } from "@/types/livro";
 
 export default function Biblioteca() {
   const [livros, setLivros] = useState<Livro[]>([]);
@@ -28,6 +28,7 @@ export default function Biblioteca() {
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [livroSelecionado, setLivroSelecionado] = useState<Livro | null>(null);
 
+  // Referência para rolar até o formulário quando editar
   const formRef = useRef<HTMLFormElement | null>(null);
 
   useEffect(() => {
@@ -116,8 +117,113 @@ export default function Biblioteca() {
           {editandoId ? "Editar Livro" : "Cadastrar novo livro"}
         </h3>
 
-        {/* Campos do formulário */}
-        {/* ... (mantém os inputs como estão, sem alterações) */}
+        <label className={styles.label}>Título</label>
+        <input
+          className={styles.input}
+          type="text"
+          value={titulo}
+          onChange={(e) => setTitulo(e.target.value)}
+          required
+        />
+
+        <label className={styles.label}>Autor</label>
+        <input
+          className={styles.input}
+          type="text"
+          value={autor}
+          onChange={(e) => setAutor(e.target.value)}
+          required
+        />
+
+        <label className={styles.label}>Ano de publicação</label>
+        <input
+          className={styles.input}
+          type="number"
+          value={ano_publicacao}
+          onChange={(e) => setAnoPublicacao(e.target.value)}
+        />
+
+        <label className={styles.label}>ISBN</label>
+        <input
+          className={styles.input}
+          type="text"
+          value={isbn}
+          onChange={(e) => setIsbn(e.target.value)}
+          required
+        />
+
+        <label className={styles.label}>Gênero</label>
+        <select
+          className={styles.input}
+          value={genero}
+          onChange={(e) => setGenero(e.target.value)}
+        >
+          <option value="">Selecione o gênero</option>
+          <option value="Romance">Romance</option>
+          <option value="Programação">Programação</option>
+          <option value="Fantasia">Fantasia</option>
+          <option value="Autoajuda">Autoajuda</option>
+        </select>
+
+        <label className={styles.label}>URL da capa</label>
+        <input
+          className={styles.input}
+          type="text"
+          value={urlCapa}
+          onChange={(e) => setUrlCapa(e.target.value)}
+        />
+
+        <label className={styles.label}>Avaliação</label>
+        <div className={styles.stars}>
+          {[...Array(5)].map((_, i) => (
+            <span
+              key={i}
+              className={i < avaliacao ? styles.starFull : styles.starEmpty}
+              onClick={() => setAvaliacao(i + 1)}
+              style={{ cursor: "pointer" }}
+            >
+              ★
+            </span>
+          ))}
+        </div>
+
+        <label className={styles.label}>📖 Está lendo?</label>
+        <select
+          className={styles.input}
+          value={lendo ? "sim" : "nao"}
+          onChange={(e) => setLendo(e.target.value === "sim")}
+        >
+          <option value="nao">Não</option>
+          <option value="sim">Sim</option>
+        </select>
+
+        <label className={styles.label}>📘 Total de páginas</label>
+        <input
+          className={styles.input}
+          type="number"
+          min="0"
+          value={paginasTotal}
+          onChange={(e) => setPaginasTotal(Number(e.target.value))}
+        />
+
+        <label className={styles.label}>📗 Páginas lidas</label>
+        <input
+          className={styles.input}
+          type="number"
+          min="0"
+          max={paginasTotal}
+          value={paginasLidas}
+          onChange={(e) => setPaginasLidas(Number(e.target.value))}
+        />
+
+        <label className={styles.label}>🎯 Finalidade</label>
+        <input
+          className={styles.input}
+          type="text"
+          value={finalidade}
+          onChange={(e) => setFinalidade(e.target.value)}
+          placeholder="Ex: estudo, lazer..."
+        />
 
         <button className={styles.button} type="submit">
           {editandoId ? "Salvar Alterações" : "Adicionar Livro"}
@@ -169,7 +275,9 @@ export default function Biblioteca() {
             </div>
 
             {livro.finalidade && (
-              <div className={styles.bookPurpose}>🎯 {livro.finalidade}</div>
+              <div className={styles.bookPurpose}>
+                🎯 {livro.finalidade}
+              </div>
             )}
 
             <div className={styles.rating}>
@@ -185,7 +293,6 @@ export default function Biblioteca() {
 
             <div className={styles.actions}>
               <button
-                aria-label="Editar livro"
                 onClick={() => {
                   setEditandoId(livro.id);
                   setTitulo(livro.titulo);
@@ -199,24 +306,25 @@ export default function Biblioteca() {
                   setPaginasTotal(livro.paginas_total);
                   setPaginasLidas(livro.paginas_lidas);
                   setFinalidade(livro.finalidade || "");
+
                   formRef.current?.scrollIntoView({ behavior: "smooth" });
                 }}
               >
                 <Pencil size={20} />
               </button>
 
-              <button aria-label="Excluir livro" onClick={() => excluirLivro(livro.id)}>
+              <button onClick={() => excluirLivro(livro.id)}>
                 <Trash2 size={20} />
               </button>
 
-              <button aria-label="Visualizar livro" onClick={() => setLivroSelecionado(livro)}>
+              <button onClick={() => setLivroSelecionado(livro)}>
                 <Eye size={20} />
               </button>
             </div>
           </div>
         ))}
       </div>
-  
+
       {/* --- Modal --- */}
       {livroSelecionado && (
         <div
@@ -233,12 +341,12 @@ export default function Biblioteca() {
             <h3 className={styles.modalTitle}>{livroSelecionado.titulo}</h3>
             {livroSelecionado.url_capa && (
             <Image
-              src={livroSelecionado.url_capa}
-              alt={`Capa do livro ${livroSelecionado.titulo}`}
-              width={200}
-              height={300}
-              className={styles.image}
-/>
+                src={livroSelecionado.url_capa}
+                alt={`Capa do livro ${livroSelecionado.titulo}`}
+                width={200}
+                height={300}
+                className={styles.image}
+              />
             )}
             <p><b>Autor:</b> {livroSelecionado.autor}</p>
             <p><b>Ano:</b> {livroSelecionado.ano_publicacao}</p>
