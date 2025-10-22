@@ -45,7 +45,7 @@ export default function BookShelfLanding() {
   }, []);
 
   // 📊 Estatísticas gerais
-  const totalLivros = livros.length;
+ 
   const lendo = livros.filter((l) => l.lendo).length;
   const finalizados = livros.filter(
     (l) => !l.lendo && l.paginas_lidas === l.paginas_total
