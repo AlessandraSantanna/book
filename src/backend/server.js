@@ -10,7 +10,7 @@ app.use(
   cors({
     origin: [
       "https://book-three-neon.vercel.app", // frontend na Vercel
-      "http://localhost:3000",               // dev local
+                   // dev local
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type"],

@@ -30,7 +30,7 @@ export default function BookShelfLanding() {
   useEffect(() => {
     async function fetchLivros() {
       try {
-        const res = await fetch("http://localhost:3001/api/livros");
+        const res = await fetch("https://book-vt3q.onrender.com");
         if (!res.ok) throw new Error("Erro ao buscar livros");
         const data = await res.json();
         setLivros(data);
